@@ -15,7 +15,20 @@ import { Badge } from "@/components/ui/badge"
 import { RoleForm } from "./role-form"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { useToast } from "@/components/ui/use-toast"
-import { useRoleContext} from "@/contexts/RoleContext"
+import { useRoleContext } from "@/contexts/RoleContext"
+
+export interface Permission {
+  name: string;
+  enabled: boolean;
+}
+
+export interface Role {
+  id: string;
+  name: string;
+  permissions: string[];
+}
+
+export type RoleWithoutId = Omit<Role, 'id'>;
 
 export function RoleManagement() {
   const [isModalOpen, setIsModalOpen] = useState(false)
@@ -108,21 +121,4 @@ export function RoleManagement() {
     </div>
   )
 }
-
-
-
-
-export interface Permission {
-  name: string;
-  enabled: boolean;
-}
-
-export interface Role {
-  id: string;
-  name: string;
-  permissions: Permission[];
-}
-
-export type RoleWithoutId = Omit<Role, 'id'>;
-
 
