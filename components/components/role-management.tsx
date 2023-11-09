@@ -17,22 +17,15 @@ import { ScrollArea } from "@/components/ui/scroll-area"
 import { useToast } from "@/components/ui/use-toast"
 import { useRoleContext } from "@/contexts/RoleContext"
 
-export interface Permission {
-  name: string;
-  enabled: boolean;
-}
-
 export interface Role {
   id: string;
   name: string;
   permissions: string[];
 }
 
-export type RoleWithoutId = Omit<Role, 'id'>;
-
 export function RoleManagement() {
   const [isModalOpen, setIsModalOpen] = useState(false)
-  const [editingRole, setEditingRole] = useState<Role | null>(null)
+  const [editingRole, setEditingRole] = useState<Role | undefined>(undefined)
   const { toast } = useToast()
   const { roles, addRole, updateRole, deleteRole } = useRoleContext()
 
@@ -64,7 +57,7 @@ export function RoleManagement() {
       })
     }
     setIsModalOpen(false)
-    setEditingRole(null)
+    setEditingRole(undefined)
   }
 
   return (
@@ -114,7 +107,7 @@ export function RoleManagement() {
           onSubmit={handleSubmit}
           onCancel={() => {
             setIsModalOpen(false)
-            setEditingRole(null)
+            setEditingRole(undefined)
           }}
         />
       )}
