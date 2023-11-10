@@ -15,7 +15,7 @@ import { Badge } from "@/components/ui/badge"
 import { RoleForm } from "./role-form"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { useToast } from "@/components/ui/use-toast"
-import { useRoleContext, Role } from "@/contexts/RoleContext"
+import { useRoleContext} from "@/contexts/RoleContext"
 
 export function RoleManagement() {
   const [isModalOpen, setIsModalOpen] = useState(false)
