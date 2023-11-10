@@ -13,17 +13,11 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import { useToast } from "@/components/ui/use-toast"
+import { useRoleContext } from "@/contexts/RoleContext"
 
-interface User {
-  id: string;
-  name: string;
-  email: string;
-  role: string;
-  status: string;
-}
 
 interface UserFormProps {
-  user: User | null;
+  user?: User | null;
   onSubmit: (userData: Omit<User, 'id'>) => void;
   onCancel: () => void;
 }
@@ -39,6 +33,7 @@ export function UserForm({ user, onSubmit, onCancel }: UserFormProps) {
   )
   const [errors, setErrors] = useState<{ [key: string]: string }>({})
   const { toast } = useToast()
+  const { roles } = useRoleContext()
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target
@@ -122,13 +117,15 @@ export function UserForm({ user, onSubmit, onCancel }: UserFormProps) {
               value={formData.role}
               onValueChange={(value) => handleSelectChange("role", value)}
             >
-              <SelectTrigger>
+              <SelectTrigger id="role">
                 <SelectValue placeholder="Select a role" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="Admin">Admin</SelectItem>
-                <SelectItem value="Editor">Editor</SelectItem>
-                <SelectItem value="Viewer">Viewer</SelectItem>
+                {roles.map((role) => (
+                  <SelectItem key={role.id} value={role.name}>
+                    {role.name}
+                  </SelectItem>
+                ))}
               </SelectContent>
             </Select>
             {errors.role && <p className="text-sm text-red-500">{errors.role}</p>}
@@ -140,7 +137,7 @@ export function UserForm({ user, onSubmit, onCancel }: UserFormProps) {
               value={formData.status}
               onValueChange={(value) => handleSelectChange("status", value)}
             >
-              <SelectTrigger>
+              <SelectTrigger id="status">
                 <SelectValue placeholder="Select status" />
               </SelectTrigger>
               <SelectContent>
@@ -161,3 +158,15 @@ export function UserForm({ user, onSubmit, onCancel }: UserFormProps) {
   )
 }
 
+export interface User {
+  id: string;
+  name: string;
+  email: string;
+  role: string;
+  status: string;
+}
+
+export interface Role {
+  id: string;
+  name: string;
+}
