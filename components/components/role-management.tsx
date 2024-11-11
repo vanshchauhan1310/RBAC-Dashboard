@@ -50,20 +50,6 @@ const initialRoles: Role[] = [
   },
 ]
 
-
-export interface Permission {
-  name: string;
-  enabled: boolean;
-}
-
-export interface Role {
-  id: string;
-  name: string;
-  permissions: Permission[];
-}
-
-
-
 export function RoleManagement() {
   const [roles, setRoles] = useState<Role[]>(initialRoles)
   const [filteredRoles, setFilteredRoles] = useState<Role[]>(roles)
@@ -179,6 +165,8 @@ export function RoleManagement() {
   )
 }
 
+
+
 export interface Permission {
   name: string;
   enabled: boolean;
@@ -189,4 +177,7 @@ export interface Role {
   name: string;
   permissions: Permission[];
 }
+
+export type RoleWithoutId = Omit<Role, 'id'>;
+
 
