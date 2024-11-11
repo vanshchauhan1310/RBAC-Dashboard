@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { PlusIcon, SearchIcon } from 'lucide-react'
+import { PlusIcon } from 'lucide-react'
 import { Button } from "@/components/ui/button"
 import {
   Table,
@@ -24,17 +24,25 @@ import {
 } from "@/components/ui/select"
 import { useToast } from "@/components/ui/use-toast"
 
-const initialUsers = [
+interface User {
+  id: string;
+  name: string;
+  email: string;
+  role: string;
+  status: string;
+}
+
+const initialUsers: User[] = [
   { id: "1", name: "John Doe", email: "john@example.com", role: "Admin", status: "Active" },
   { id: "2", name: "Jane Smith", email: "jane@example.com", role: "Editor", status: "Active" },
   { id: "3", name: "Bob Johnson", email: "bob@example.com", role: "Viewer", status: "Inactive" },
 ]
 
 export function UserManagement() {
-  const [users, setUsers] = useState(initialUsers)
-  const [filteredUsers, setFilteredUsers] = useState(users)
+  const [users, setUsers] = useState<User[]>(initialUsers)
+  const [filteredUsers, setFilteredUsers] = useState<User[]>(users)
   const [isModalOpen, setIsModalOpen] = useState(false)
-  const [editingUser, setEditingUser] = useState(null)
+  const [editingUser, setEditingUser] = useState<User | null>(null)
   const [searchTerm, setSearchTerm] = useState("")
   const [roleFilter, setRoleFilter] = useState("All")
   const [statusFilter, setStatusFilter] = useState("All")
@@ -57,13 +65,12 @@ export function UserManagement() {
     setFilteredUsers(result)
   }, [users, searchTerm, roleFilter, statusFilter])
 
-  const handleEdit = (
-user) => {
+  const handleEdit = (user: User) => {
     setEditingUser(user)
     setIsModalOpen(true)
   }
 
-  const handleDelete = (id) => {
+  const handleDelete = (id: string) => {
     setUsers(users.filter((user) => user.id !== id))
     toast({
       title: "User Deleted",
@@ -71,7 +78,7 @@ user) => {
     })
   }
 
-  const handleSubmit = (userData) => {
+  const handleSubmit = (userData: Omit<User, 'id'>) => {
     if (editingUser) {
       setUsers(users.map((user) => (user.id === editingUser.id ? { ...userData, id: editingUser.id } : user)))
       toast({
@@ -146,7 +153,7 @@ user) => {
                 <TableCell className="hidden md:table-cell">{user.email}</TableCell>
                 <TableCell className="hidden sm:table-cell">{user.role}</TableCell>
                 <TableCell>
-                  <Badge variant={user.status === "Active" ? "success" : "destructive"}>
+                  <Badge variant={user.status === "Active" ? "default" : "secondary"}>
                     {user.status}
                   </Badge>
                 </TableCell>

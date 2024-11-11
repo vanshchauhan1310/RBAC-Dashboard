@@ -13,22 +13,23 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import { useToast } from "@/components/ui/use-toast"
-import { Toast } from "@/components/ui/toast"
+
+interface User {
+  id: string;
+  name: string;
+  email: string;
+  role: string;
+  status: string;
+}
 
 interface UserFormProps {
-  user?: {
-    id: string
-    name: string
-    email: string
-    role: string
-    status: string
-  }
-  onSubmit: (userData: any) => void
-  onCancel: () => void
+  user: User | null;
+  onSubmit: (userData: Omit<User, 'id'>) => void;
+  onCancel: () => void;
 }
 
 export function UserForm({ user, onSubmit, onCancel }: UserFormProps) {
-  const [formData, setFormData] = useState(
+  const [formData, setFormData] = useState<Omit<User, 'id'>>(
     user || {
       name: "",
       email: "",
@@ -112,7 +113,7 @@ export function UserForm({ user, onSubmit, onCancel }: UserFormProps) {
               onChange={handleInputChange}
               required
             />
-{errors.email && <p className="text-sm text-red-500">{errors.email}</p>}
+            {errors.email && <p className="text-sm text-red-500">{errors.email}</p>}
           </div>
           <div className="space-y-2">
             <Label htmlFor="role">Role</Label>
