@@ -21,6 +21,7 @@ interface RoleFormProps {
   }
   onSubmit: (roleData: any) => void
   onCancel: () => void
+
 }
 
 export function RoleForm({ role, onSubmit, onCancel }: RoleFormProps) {
