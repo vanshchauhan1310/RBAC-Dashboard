@@ -16,7 +16,6 @@ import { RoleForm } from "./role-form"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { Input } from "@/components/ui/input"
 import { useToast } from "@/components/ui/use-toast"
-import { Role, Permission } from "../types/role"
 
 const initialRoles: Role[] = [
   {
@@ -50,6 +49,17 @@ const initialRoles: Role[] = [
     ],
   },
 ]
+
+export interface Permission {
+  name: string;
+  enabled: boolean;
+}
+
+export interface Role {
+  id: string;
+  name: string;
+  permissions: Permission[];
+}
 
 export function RoleManagement() {
   const [roles, setRoles] = useState<Role[]>(initialRoles)
