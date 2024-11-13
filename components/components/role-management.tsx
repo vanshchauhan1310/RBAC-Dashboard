@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { PlusIcon, SearchIcon } from 'lucide-react'
+import { PlusIcon } from 'lucide-react'
 import { Button } from "@/components/ui/button"
 import {
   Table,
@@ -16,8 +16,9 @@ import { RoleForm } from "./role-form"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { Input } from "@/components/ui/input"
 import { useToast } from "@/components/ui/use-toast"
+import { Role, Permission } from "../types/role"
 
-const initialRoles = [
+const initialRoles: Role[] = [
   {
     id: "1",
     name: "Admin",
@@ -51,10 +52,10 @@ const initialRoles = [
 ]
 
 export function RoleManagement() {
-  const [roles, setRoles] = useState(initialRoles)
-  const [filteredRoles, setFilteredRoles] = useState(roles)
+  const [roles, setRoles] = useState<Role[]>(initialRoles)
+  const [filteredRoles, setFilteredRoles] = useState<Role[]>(roles)
   const [isModalOpen, setIsModalOpen] = useState(false)
-  const [editingRole, setEditingRole] = useState(null)
+  const [editingRole, setEditingRole] = useState<Role | null>(null)
   const [searchTerm, setSearchTerm] = useState("")
   const { toast } = useToast()
 
@@ -65,12 +66,12 @@ export function RoleManagement() {
     setFilteredRoles(result)
   }, [roles, searchTerm])
 
-  const handleEdit = (role) => {
+  const handleEdit = (role: Role) => {
     setEditingRole(role)
     setIsModalOpen(true)
   }
 
-  const handleDelete = (id) => {
+  const handleDelete = (id: string) => {
     setRoles(roles.filter((role) => role.id !== id))
     toast({
       title: "Role Deleted",
@@ -78,8 +79,7 @@ export function RoleManagement() {
     })
   }
 
-
-  const handleSubmit = (roleData) => {
+  const handleSubmit = (roleData: Omit<Role, 'id'>) => {
     if (editingRole) {
       setRoles(roles.map((role) => (role.id === editingRole.id ? { ...roleData, id: editingRole.id } : role)))
       toast({
@@ -132,7 +132,7 @@ export function RoleManagement() {
                   {role.permissions.map((permission) => (
                     <Badge
                       key={permission.name}
-                      variant={permission.enabled ? "success" : "secondary"}
+                      variant={permission.enabled ? "default" : "secondary"}
                       className="mr-1 mb-1"
                     >
                       {permission.name}
