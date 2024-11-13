@@ -65,7 +65,8 @@ export function RoleManagement() {
     setFilteredRoles(result)
   }, [roles, searchTerm])
 
-  const handleEdit = (role: Role) => {    setEditingRole(role)
+  const handleEdit = (role) => {
+    setEditingRole(role)
     setIsModalOpen(true)
   }
 
@@ -77,7 +78,6 @@ export function RoleManagement() {
     })
   }
 
- 
 
   const handleSubmit = (roleData) => {
     if (editingRole) {
