@@ -65,8 +65,7 @@ export function RoleManagement() {
     setFilteredRoles(result)
   }, [roles, searchTerm])
 
-  const handleEdit = (role) => {
-    setEditingRole(role)
+  const handleEdit = (role: Role) => {    setEditingRole(role)
     setIsModalOpen(true)
   }
 
@@ -77,6 +76,8 @@ export function RoleManagement() {
       description: "The role has been successfully removed.",
     })
   }
+
+ 
 
   const handleSubmit = (roleData) => {
     if (editingRole) {
